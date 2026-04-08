@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="appveyor.yml" />
+    <File Path="Directory.Build.props" />
+    <File Path="NuGet.config" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <File Path="Tests/TestHelper.config" />
+    <Project Path="Tests/CK.DB.TokenStore.Tests/CK.DB.TokenStore.Tests.csproj" />
+  </Folder>
+  <Project Path="CK.DB.TokenStore/CK.DB.TokenStore.csproj" />
+</Solution>
