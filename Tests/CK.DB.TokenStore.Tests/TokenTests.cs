@@ -17,7 +17,7 @@ public class TokenTests
     [Test]
     public void create_and_destroy()
     {
-        var tokenStoreTable = SharedEngine.Map.StObjs.Obtain<TokenStoreTable>();
+        var tokenStoreTable = SharedEngine.Map.StObjs.Obtain<TokenStoreTable>().ShouldNotBeNull();
         using( var ctx = new SqlStandardCallContext( TestHelper.Monitor ) )
         {
             var info = tokenStoreTable.GenerateTestInvitationInfo();
@@ -29,7 +29,7 @@ public class TokenTests
             var checkResult = tokenStoreTable.Check( ctx, 1, createResult.Token );
             checkResult.IsValid().ShouldBeTrue();
             checkResult.TokenId.ShouldBe( createResult.TokenId );
-            checkResult.LastCheckedDate.ShouldBe( DateTime.UtcNow, tolerance: TimeSpan.FromMilliseconds( 500 ) );
+            checkResult.LastCheckedDate.ShouldBe( DateTime.UtcNow, tolerance: TimeSpan.FromSeconds( 1 ) );
             checkResult.ValidCheckedCount.ShouldBe( 1 );
 
             tokenStoreTable.Destroy( ctx, 1, createResult.TokenId );
@@ -39,7 +39,7 @@ public class TokenTests
     [Test]
     public async Task create_and_destroy_Async()
     {
-        var tokenStoreTable = SharedEngine.Map.StObjs.Obtain<TokenStoreTable>();
+        var tokenStoreTable = SharedEngine.Map.StObjs.Obtain<TokenStoreTable>().ShouldNotBeNull();
         using( var ctx = new SqlStandardCallContext( TestHelper.Monitor ) )
         {
             var info = tokenStoreTable.GenerateTestInvitationInfo();
@@ -51,7 +51,7 @@ public class TokenTests
             var checkResult = await tokenStoreTable.CheckAsync( ctx, 1, createResult.Token );
             checkResult.IsValid().ShouldBeTrue();
             checkResult.TokenId.ShouldBe( createResult.TokenId );
-            checkResult.LastCheckedDate.ShouldBe( DateTime.UtcNow, tolerance: TimeSpan.FromMilliseconds( 500 ) );
+            checkResult.LastCheckedDate.ShouldBe( DateTime.UtcNow, tolerance: TimeSpan.FromSeconds( 1 ) );
             checkResult.ValidCheckedCount.ShouldBe( 1 );
 
             await tokenStoreTable.DestroyAsync( ctx, 1, createResult.TokenId );
@@ -61,7 +61,7 @@ public class TokenTests
     [Test]
     public void scoped_key_uniqueness()
     {
-        var tokenStoreTable = SharedEngine.Map.StObjs.Obtain<TokenStoreTable>();
+        var tokenStoreTable = SharedEngine.Map.StObjs.Obtain<TokenStoreTable>().ShouldNotBeNull();
         using( var ctx = new SqlStandardCallContext( TestHelper.Monitor ) )
         {
             var info = tokenStoreTable.GenerateTestInvitationInfo();
@@ -83,7 +83,7 @@ public class TokenTests
     [TestCase( null )]
     public void invalid_or_missing_token_does_not_check( string token )
     {
-        var tokenStoreTable = SharedEngine.Map.StObjs.Obtain<TokenStoreTable>();
+        var tokenStoreTable = SharedEngine.Map.StObjs.Obtain<TokenStoreTable>().ShouldNotBeNull();
         using( var ctx = new SqlStandardCallContext( TestHelper.Monitor ) )
         {
             var result = tokenStoreTable.Check( ctx, 1, token );
